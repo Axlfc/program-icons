@@ -3,9 +3,16 @@
 o = open("FEATURES.md", "r")
 try:
     first_line = o.readline().split("features")
+    num = 0
+    for i in first_line[0]:
+        if i.isdigit():
+            num = num + int(i)
+    num_user_features = int(num)
+    print(num_user_features)
+    '''
     num_user_features = int(filter(str.isdigit, first_line[0]))
     num_root_features = int(filter(str.isdigit, first_line[1]))
-    num_total_features = int(filter(str.isdigit, first_line[2]))
+    num_total_features = int(filter(str.isdigit, first_line[2]))'''
     lines = o.readlines()[4:]
     #print(lines)
     feature_list = []
