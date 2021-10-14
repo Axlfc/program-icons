@@ -20,7 +20,7 @@ try:
                 break
             k += 1
         w.close()
-
+    '''
     with open('root_programs', 'w') as x:
         k = num_user_features + 1
         #print("skip lines here to trim data...")
@@ -33,6 +33,27 @@ try:
             #print(thing[1])
             x.write(thing[h] + '\n')
             h += 1
-        x.close()
+        x.close()'''
 finally:
     o.close()
+
+
+images = []
+
+search_words = [
+    " icon",
+    " symbol"
+]
+
+#print(search_words)
+o = open("user_programs", "r")
+lines = o.readlines()
+c = 0
+for line in lines:
+    c += 1
+    #print("{}".format(line.strip()))
+    images.append("{}".format(line.strip()))
+
+for z in range(len(search_words)):
+    for y in range(len(images)):
+        print(images[y] + search_words[z])
