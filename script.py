@@ -1,49 +1,68 @@
 #!/usr/bin/env python
 
 o = open("FEATURES.md", "r")
+num_user_features = ""
+num_root_features = ""
+num_total_features = ""
+
 try:
-    first_line = o.readline().split("features")
-    num = 0
-    for i in first_line[0]:
-        if i.isdigit():
-            num = num + int(i)
-    num_user_features = int(num)
-    print(num_user_features)
-    '''
-    num_user_features = int(filter(str.isdigit, first_line[0]))
-    num_root_features = int(filter(str.isdigit, first_line[1]))
-    num_total_features = int(filter(str.isdigit, first_line[2]))'''
-    lines = o.readlines()[4:]
-    #print(lines)
-    feature_list = []
-    root_feature_list = []
-    for i in range(num_user_features):
-        feature_list.append(lines[i].split("|"))
-    with open('user_programs', 'w') as w:
-        k = 0
-        while k <= len(feature_list) - 2:
-            w.write(feature_list[k][1] + '\n')
-            if k == num_user_features:
-                break
-            k += 1
-        w.close()
-    '''
-    with open('root_programs', 'w') as x:
-        k = num_user_features + 1
-        #print("skip lines here to trim data...")
-        h = 0
-        for j in range(k, num_total_features):
-            print(h)
-            thing = lines[h].split("|")
-            print(thing[1])
-            root_feature_list.append(thing)
-            #print(thing[1])
-            x.write(thing[h] + '\n')
-            h += 1
-        x.close()'''
+    with open("FEATURES.md", "r") as o:
+        lines = o.readlines()
+
+    with open("FEATURES.md", "r") as q:
+        first_line = q.readline().split("features")
+        for i in first_line[0]:
+            if i.isdigit():
+                num_user_features = num_user_features + str(i)
+        for i in first_line[1]:
+            if i.isdigit():
+                num_root_features = num_root_features + str(i)
+        for i in first_line[2]:
+            if i.isdigit():
+                num_total_features = num_total_features + str(i)
+        q.close()
 finally:
     o.close()
 
+num_user_features = int(num_user_features)
+num_root_features = int(num_root_features)
+num_total_features = int(num_total_features) 
+
+features = []
+user_features = []
+root_features = []
+
+for i in lines:
+    features.append(i)
+
+a = 5
+b = num_user_features + a
+for i in range(a, b):
+    user_features.append(features[i] + "\n")
+
+b = user_features.index(user_features[-2]) + 12
+for i in range(b, len(features)):
+    root_features.append(features[i] + "\n")
+
+
+user_features_names = []
+for i in range(len(user_features)):
+    user_features_names.append(user_features[i].split("|"))
+del user_features_names[-1]
+user_feature_names = []
+for i in user_features_names:
+    user_feature_names.append(i[1])
+
+root_features_names = []
+for i in range(len(root_features)):
+    root_features_names.append(root_features[i].split("|"))
+del root_features_names[-1]
+root_feature_names = []
+for i in root_features_names:
+    root_feature_names.append(i[1])
+
+#print(user_feature_names)
+#print(root_feature_names)
 
 images = []
 
@@ -52,15 +71,12 @@ search_words = [
     " symbol"
 ]
 
-#print(search_words)
-o = open("user_programs", "r")
-lines = o.readlines()
 c = 0
-for line in lines:
+for line in user_feature_names:
     c += 1
     #print("{}".format(line.strip()))
     images.append("{}".format(line.strip()))
 
 for z in range(len(search_words)):
     for y in range(len(images)):
-        print(images[y] + search_words[z])
+        print(images[y] + ".svg" + search_words[z])
