@@ -1,4 +1,7 @@
 #!/usr/bin/env python
+import os
+
+# Prepare lists of features
 
 o = open("FEATURES.md", "r")
 num_user_features = ""
@@ -64,11 +67,41 @@ for i in root_features_names:
 #print(user_feature_names)
 #print(root_feature_names)
 
+#Prepare folder structures
+
+main_dir = [user_feature_names, root_feature_names]
+root_folder_dir = "images"
+main_dir_names = ["user", "root"]
+for i in range(len(main_dir)):
+    for j in range(len(main_dir[i])):
+        dirName = str(root_folder_dir) + '/' + str(main_dir_names[i]) +'/' + str(main_dir[i][j])[:-1]
+        try:
+            os.makedirs(dirName)
+            print("Directory " , dirName ,  " Created ") 
+        except:
+            print("Directory " , dirName ,  " already exists")
+        # Create target Directory if don't exist
+        if not os.path.exists(dirName):
+            os.makedirs(dirName)
+            print("Directory " , dirName ,  " Created ")
+        else:    
+            print("Directory " , dirName ,  " already exists")
+
+# Perform search
 images = []
 
 search_words = [
     " icon",
-    " symbol"
+    ".svg",
+    " logo",
+    " emblem",
+    " symbol",
+    " badge",
+    " brand",
+    " logotype",
+    ".svg wikipedia"
+
+
 ]
 
 c = 0
@@ -79,4 +112,5 @@ for line in user_feature_names:
 
 for z in range(len(search_words)):
     for y in range(len(images)):
-        print(images[y] + ".svg" + search_words[z])
+        #print(images[y] + search_words[z])
+        pass
