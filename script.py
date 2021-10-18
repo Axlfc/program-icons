@@ -7,7 +7,7 @@ from bs4 import BeautifulSoup
 
 def download_image(image_url, image_path):
     response = requests.get(image_url, stream=True)
-    if response.status_code == 200:
+    if response.ok:
         with open(image_path, 'wb') as f:
             f.write(response.content)
 
@@ -146,7 +146,7 @@ def main():
     pic_path = current_dir + "/images/user/Google/"
     #print(pic_path)
     for i in range(len(picture_paths)):
-        pic_path = picture_paths[i]
+        pic_path = picture_paths[i] + pic_name
         download_image(pic_url, pic_path)
     # Perform search
     images = []
