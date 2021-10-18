@@ -1,21 +1,15 @@
 #!/usr/bin/env python
 import os
 import requests
+
 from bs4 import BeautifulSoup 
 
 
 def download_image(image_url, image_path):
-    with open(image_path, 'wb') as handle:
-        response = requests.get(image_url, stream=True)
-
-        if not response.ok:
-            print(response)
-
-        for block in response.iter_content(1024):
-            if not block:
-                break
-
-            handle.write(block)
+    response = requests.get(image_url, stream=True)
+    if response.status_code == 200:
+        with open(image_path, 'wb') as f:
+            f.write(response.content)
 
 
 def getdata(url): 
@@ -129,15 +123,11 @@ def main():
     user_pictures = picture_names.extend(picture_paths), picture_names.extend(picture_names)
     #print(user_pictures)
 
-    #print("HoLAA")
-
     for i in range(len(user_feature_names)):
         #print(user_feature_names[i])
         #print(picture_paths[i])
         pass
 
-
-    #print("deeew")
 
     web_server = "wikipedia.org"
     feature_name = "whatsapp"
@@ -151,12 +141,13 @@ def main():
         url_list.append(item['src'])
 
     print(picture_paths[25])
-    pic_path = "images/user/Google/" + pic_name
     pic_url = "http://google.com/favicon.ico"
-
+    current_dir = os.getcwd()
+    pic_path = current_dir + "/images/user/Google/"
+    #print(pic_path)
     for i in range(len(picture_paths)):
         pic_path = picture_paths[i]
-    download_image(pic_url, pic_path)
+        download_image(pic_url, pic_path)
     # Perform search
     images = []
 
