@@ -89,6 +89,7 @@ def main():
     # Trim software folder names
     for i in range(len(root_feature_names)):
         for j in root_feature_names[i]:
+            # Respect Code::Blocks
             if j == ":" or j == "/" or j == "\\" or j == "*" or j == "?" or j == "\"" or j == "<" or j == ">" or j == "|" or j == "`":
                 root_feature_names[i] = root_feature_names[i].replace(":", "").replace("/", "").replace("\\", "").replace("*", "").replace("?", "").replace("\"", "").replace("<", "").replace(">", "").replace("|", "").replace("`", "")
         root_feature_names[i] = root_feature_names[i][1:]
@@ -108,25 +109,65 @@ def main():
             # Create target Directory if don't exist
             try:
                 os.makedirs(dirName)
-                print("Directory ", dirName,  " Created ") 
+                #print("Directory ", dirName,  " Created ") 
             except:
-                print("Directory ", dirName,  " already exists")
+                #print("Directory ", dirName,  " already exists")
+                pass
+    
+    '''   
+    for i in url_list:
+        print(i)
+    '''
+    picture_names = []
+    picture_paths = []
+    for i in user_feature_names:
+        pic_name = i[:-1] + "_icon.ico"
+        pic_path = "images/user/" + i[:-1] + "/"
+        picture_names.append(pic_name)
+        picture_paths.append(pic_path)
+    # print(picture_names, picture_paths)
+    user_pictures = picture_names.extend(picture_paths), picture_names.extend(picture_names)
+    #print(user_pictures)
 
+    #print("HoLAA")
+
+    for i in range(len(user_feature_names)):
+        #print(user_feature_names[i])
+        #print(picture_paths[i])
+        pass
+
+
+    #print("deeew")
+
+    web_server = "wikipedia.org"
+    feature_name = "whatsapp"
+    pic_format = "svg"
+    download_image_url = "https://www.google.com/search?as_st=y&tbm=isch&as_q=" + feature_name + "&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=" + web_server + "&safe=images&tbs=iar:s,ift:" + pic_format
+    htmldata = getdata(download_image_url)
+    #htmldata = getdata("https://www.wikipedia.org/")
+    soup = BeautifulSoup(htmldata, 'html.parser')
+    url_list = []
+    for item in soup.find_all('img'):
+        url_list.append(item['src'])
+
+    print(picture_paths[25])
+    pic_path = "images/user/Google/" + pic_name
+    pic_url = "http://google.com/favicon.ico"
+
+    for i in range(len(picture_paths)):
+        pic_path = picture_paths[i]
+    download_image(pic_url, pic_path)
     # Perform search
     images = []
 
     search_words = [
         " icon",
-        ".svg",
         " logo",
         " emblem",
         " symbol",
         " badge",
         " brand",
-        " logotype",
-        ".svg wikipedia"
-
-
+        " logotype"
     ]
 
     c = 0
@@ -139,27 +180,6 @@ def main():
         for y in range(len(images)):
             #print(images[y] + search_words[z])
             pass
-
-    pic_url = 'http://google.com/favicon.ico'
-    
-    web_server = "wikipedia.org"
-    feature_name = "whatsapp"
-    download_image_url = "https://www.google.com/search?as_st=y&tbm=isch&as_q=" + feature_name + "&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=" + web_server + "&safe=images&tbs=iar:s,ift:svg"
-    htmldata = getdata(download_image_url)
-    #htmldata = getdata("https://www.wikipedia.org/")
-    soup = BeautifulSoup(htmldata, 'html.parser')
-    url_list = []
-    for item in soup.find_all('img'):
-        print(item['src'])
-        url_list.append(item['src'])
-    
-    for i in url_list:
-        print(i)
-
-    
-    pic_name = "google_icon.ico"
-    pic_path = "images/user/Google/" + pic_name
-    download_image(pic_url, pic_path)
 
 if __name__ == "__main__":
     main()
