@@ -146,8 +146,10 @@ def main():
     pic_path = current_dir + "/images/user/Google/"
     #print(pic_path)
     for i in range(len(picture_paths)):
+        # Elaborate url repartition
+        imgurl = "https://www.google.com/search?as_st=y&tbm=isch&as_q=" + user_feature_names[i] + "&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=" + web_server + "&safe=images&tbs=iar:s,ift:" + pic_format
         pic_path = picture_paths[i] + pic_name
-        download_image(pic_url, pic_path)
+        download_image(imgurl, pic_path)
     # Perform search
     images = []
 
