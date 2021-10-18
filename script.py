@@ -1,6 +1,8 @@
 #!/usr/bin/env python
 import os
 import requests
+from bs4 import BeautifulSoup 
+
 
 def download_image(image_url, image_path):
     with open(image_path, 'wb') as handle:
@@ -14,6 +16,12 @@ def download_image(image_url, image_path):
                 break
 
             handle.write(block)
+
+
+def getdata(url): 
+    r = requests.get(url) 
+    return r.text 
+
 
 # Prepare lists of features
 def main():
@@ -78,9 +86,6 @@ def main():
     for i in root_features_names:
         root_feature_names.append(i[1])
 
-    #print(user_feature_names)
-    #print(root_feature_names)
-
     # Trim software folder names
     for i in range(len(root_feature_names)):
         for j in root_feature_names[i]:
@@ -136,10 +141,25 @@ def main():
             pass
 
     pic_url = 'http://google.com/favicon.ico'
+    
+    web_server = "wikipedia.org"
+    feature_name = "whatsapp"
+    download_image_url = "https://www.google.com/search?as_st=y&tbm=isch&as_q=" + feature_name + "&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=" + web_server + "&safe=images&tbs=iar:s,ift:svg"
+    htmldata = getdata(download_image_url)
+    #htmldata = getdata("https://www.wikipedia.org/")
+    soup = BeautifulSoup(htmldata, 'html.parser')
+    url_list = []
+    for item in soup.find_all('img'):
+        print(item['src'])
+        url_list.append(item['src'])
+    
+    for i in url_list:
+        print(i)
+
+    
     pic_name = "google_icon.ico"
     pic_path = "images/user/Google/" + pic_name
     download_image(pic_url, pic_path)
-
 
 if __name__ == "__main__":
     main()
