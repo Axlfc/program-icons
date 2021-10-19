@@ -1,6 +1,7 @@
 #!/usr/bin/env python
 import os
 import requests
+import magic
 
 from bs4 import BeautifulSoup 
 
@@ -15,7 +16,8 @@ def download_image(image_url, image_path):
                 f.write(response.content)
 
 
-def getdata(url): 
+def getdata(url):
+    # r = requests.get(url, verify=False) 
     r = requests.get(url) 
     return r.text 
 
@@ -131,12 +133,14 @@ def main():
         #print(picture_paths[i])
         pass
 
-
+    
     web_server = "wikipedia.org"
     #feature_name = "whatsapp"
     pic_format = "svg"
     #download_image_url = "https://www.google.com/search?as_st=y&tbm=isch&as_q=" + feature_name + "&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=" + web_server + "&safe=images&tbs=iar:s,ift:" + pic_format
-    
+    mime = magic.Magic(mime=True)
+
+    '''
     #pic_url = "http://google.com/favicon.ico"
     #current_dir = os.getcwd()
     #pic_path = current_dir + "/images/user/Google/"
@@ -153,10 +157,15 @@ def main():
             pic_path = picture_paths[i] + picture_names[i][:-4] + "_" + str(u) + picture_names[i][-4:]
             download_image(str(item['src']), pic_path)
             u += 1
-
-
-
-    # Perform search
+    '''
+    # Solve right mimetype of images
+    example_path = "images/user/Function a/"
+    print(os.listdir(example_path))
+    for img in os.listdir(example_path):
+        if mime.from_file(example_path + img) != pic_format:
+            print(mime.from_file(example_path + img).replace("image/", ""))
+            print(img)
+        # Perform search
     images = []
 
     search_words = [
