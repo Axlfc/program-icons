@@ -7,6 +7,8 @@ from bs4 import BeautifulSoup
 
 def download_image(image_url, image_path):
     response = requests.get(image_url, stream=True)
+    #print("Downloading: ", image_url, " to ", image_path)
+    #print("")
     if response.ok:
         with open(image_path, 'wb') as f:
             f.write(response.content)
@@ -133,23 +135,25 @@ def main():
     feature_name = "whatsapp"
     pic_format = "svg"
     download_image_url = "https://www.google.com/search?as_st=y&tbm=isch&as_q=" + feature_name + "&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=" + web_server + "&safe=images&tbs=iar:s,ift:" + pic_format
-    htmldata = getdata(download_image_url)
-    #htmldata = getdata("https://www.wikipedia.org/")
-    soup = BeautifulSoup(htmldata, 'html.parser')
+    
+    #pic_url = "http://google.com/favicon.ico"
+    #current_dir = os.getcwd()
+    #pic_path = current_dir + "/images/user/Google/"
     url_list = []
-    for item in soup.find_all('img'):
-        url_list.append(item['src'])
-
-    print(picture_paths[25])
-    pic_url = "http://google.com/favicon.ico"
-    current_dir = os.getcwd()
-    pic_path = current_dir + "/images/user/Google/"
-    #print(pic_path)
     for i in range(len(picture_paths)):
-        # Elaborate url repartition
-        imgurl = "https://www.google.com/search?as_st=y&tbm=isch&as_q=" + user_feature_names[i] + "&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=" + web_server + "&safe=images&tbs=iar:s,ift:" + pic_format
-        pic_path = picture_paths[i] + pic_name
-        download_image(imgurl, pic_path)
+        # Elaborate url repartition, almost done
+        imgurl = "https://www.google.com/search?as_st=y&tbm=isch&as_q=" + user_feature_names[i][:-1].replace(" ", "+") + "&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=" + web_server + "&safe=images&tbs=iar:s,ift:" + pic_format
+        htmldata = getdata(imgurl)
+        soup = BeautifulSoup(htmldata, 'html.parser')
+        u = 0
+        for item in soup.find_all('img'):
+            url_list.append(item['src'])
+            print(item['src'])
+            pic_path = picture_paths[i] + picture_names[i]
+            download_image(str(item['src']), pic_path)
+
+
+
     # Perform search
     images = []
 
