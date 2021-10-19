@@ -133,9 +133,9 @@ def main():
 
 
     web_server = "wikipedia.org"
-    feature_name = "whatsapp"
+    #feature_name = "whatsapp"
     pic_format = "svg"
-    download_image_url = "https://www.google.com/search?as_st=y&tbm=isch&as_q=" + feature_name + "&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=" + web_server + "&safe=images&tbs=iar:s,ift:" + pic_format
+    #download_image_url = "https://www.google.com/search?as_st=y&tbm=isch&as_q=" + feature_name + "&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=" + web_server + "&safe=images&tbs=iar:s,ift:" + pic_format
     
     #pic_url = "http://google.com/favicon.ico"
     #current_dir = os.getcwd()
@@ -151,12 +151,8 @@ def main():
             url_list.append(item['src'])
             #print(item['src'])
             pic_path = picture_paths[i] + picture_names[i][:-4] + "_" + str(u) + picture_names[i][-4:]
-            print(item['src'], " babushka ", pic_path)
             download_image(str(item['src']), pic_path)
             u += 1
-
-    for j in url_list:
-        print(i)
 
 
 
