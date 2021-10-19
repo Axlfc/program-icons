@@ -6,12 +6,13 @@ from bs4 import BeautifulSoup
 
 
 def download_image(image_url, image_path):
-    response = requests.get(image_url, stream=True)
-    #print("Downloading: ", image_url, " to ", image_path)
-    #print("")
-    if response.ok:
-        with open(image_path, 'wb') as f:
-            f.write(response.content)
+    if not image_url == "/images/branding/searchlogo/1x/googlelogo_desk_heirloom_color_150x55dp.gif":
+        response = requests.get(image_url, stream=True)
+        print("Downloading: ", image_url, " to ", image_path)
+        #print("")
+        if response.ok:
+            with open(image_path, 'wb') as f:
+                f.write(response.content)
 
 
 def getdata(url): 
@@ -117,7 +118,7 @@ def main():
     picture_names = []
     picture_paths = []
     for i in user_feature_names:
-        pic_name = i[:-1] + "_icon.ico"
+        pic_name = i[:-1] + "_icon.svg"
         pic_path = "images/user/" + i[:-1] + "/"
         picture_names.append(pic_name)
         picture_paths.append(pic_path)
@@ -145,12 +146,17 @@ def main():
         imgurl = "https://www.google.com/search?as_st=y&tbm=isch&as_q=" + user_feature_names[i][:-1].replace(" ", "+") + "&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=" + web_server + "&safe=images&tbs=iar:s,ift:" + pic_format
         htmldata = getdata(imgurl)
         soup = BeautifulSoup(htmldata, 'html.parser')
-        u = 0
+        u = 1
         for item in soup.find_all('img'):
             url_list.append(item['src'])
-            print(item['src'])
-            pic_path = picture_paths[i] + picture_names[i]
+            #print(item['src'])
+            pic_path = picture_paths[i] + picture_names[i][:-4] + "_" + str(u) + picture_names[i][-4:]
+            print(item['src'], " babushka ", pic_path)
             download_image(str(item['src']), pic_path)
+            u += 1
+
+    for j in url_list:
+        print(i)
 
 
 
