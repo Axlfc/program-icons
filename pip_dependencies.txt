@@ -1,0 +1,1 @@
+wheel requests python-magic-bin cffi bs4
