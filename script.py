@@ -108,7 +108,7 @@ def main():
             dirName = str(root_folder_dir) + '/' + str(main_dir_names[i]) +'/' + str(main_dir[i][j])[:-1]
             # Create target Directory if don't exist
             try:
-                os.makedirs(dirName)
+                os.makedirs(dirName.replace(" ", "_"))
                 #print("Directory ", dirName,  " Created ") 
             except:
                 #print("Directory ", dirName,  " already exists")
@@ -124,7 +124,7 @@ def main():
         pic_name = i[:-1] + "_icon.svg"
         pic_path = "images/user/" + i[:-1] + "/"
         picture_names.append(pic_name)
-        picture_paths.append(pic_path)
+        picture_paths.append(pic_path.replace(" ", "_"))
     # print(picture_names, picture_paths)
     user_pictures = picture_names.extend(picture_paths), picture_names.extend(picture_names)
     #print(user_pictures)
@@ -156,7 +156,7 @@ def main():
             url_list.append(item['src'])
             #print(item['src'])
             pic_path = picture_paths[i] + picture_names[i][:-4] + "_" + str(u) + picture_names[i][-4:]
-            for img in os.listdir(picture_paths[i]):
+            for img in os.listdir(str(picture_paths[i])):
                 if mime.from_file(picture_paths[i] + img) != pic_format:
                     pic_path = picture_paths[i] + picture_names[i][:-4] + "_" + str(u) + picture_names[i][-4:][:-3] + mime.from_file(picture_paths[i] + img).replace("image/", "")
             download_image(str(item['src']), pic_path)
