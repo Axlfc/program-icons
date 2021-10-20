@@ -11,6 +11,7 @@ def download_image(image_url, image_path):
     if not image_url == "/images/branding/searchlogo/1x/googlelogo_desk_heirloom_color_150x55dp.gif":
         response = requests.get(image_url, stream=True)
         print("Downloading: ", image_url, " to ", image_path)
+        print(image_path)
         #print("")
         if response.ok:
             with open(image_path, 'wb') as f:
@@ -114,65 +115,64 @@ def main():
                 #print("Directory ", dirName,  " already exists")
                 pass
     
-    '''   
-    for i in url_list:
-        print(i)
-    '''
+
     picture_names = []
     picture_paths = []
-    for i in user_feature_names:
-        pic_name = i[:-1] + "_icon.svg"
-        pic_path = "images/user/" + i[:-1] + "/"
-        picture_names.append(pic_name)
-        picture_paths.append(pic_path.replace(" ", "_"))
-    # print(picture_names, picture_paths)
-    user_pictures = picture_names.extend(picture_paths), picture_names.extend(picture_names)
-    #print(user_pictures)
+    root_picture_names = []
+    root_picture_paths = []
 
-    for i in range(len(user_feature_names)):
-        #print(user_feature_names[i])
-        #print(picture_paths[i])
-        pass
+    web_server = "wikipedia.org"
+    pic_format = "svg"
+
+
+    for i in user_feature_names:
+        pic_name = i[:-1] + "_icon." + pic_format
+        pic_path = "images/user/" + i[:-1] + "/"
+        picture_names.append(pic_name.replace(" ", "_"))
+        picture_paths.append(pic_path.replace(" ", "_"))
+    for i in root_feature_names:
+        pic_name = i[:-1] + "_icon." + pic_format
+        pic_path = "images/root/" + i[:-1] + "/"
+        root_picture_names.append(pic_name.replace(" ", "_"))
+        root_picture_paths.append(pic_path.replace(" ", "_"))
 
     
-    web_server = "wikipedia.org"
-    #feature_name = "whatsapp"
-    pic_format = "svg"
-    #download_image_url = "https://www.google.com/search?as_st=y&tbm=isch&as_q=" + feature_name + "&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=" + web_server + "&safe=images&tbs=iar:s,ift:" + pic_format
     mime = magic.Magic(mime=True)
 
     
-    #pic_url = "http://google.com/favicon.ico"
-    #current_dir = os.getcwd()
-    #pic_path = current_dir + "/images/user/Google/"
     url_list = []
     for i in range(len(picture_paths)):
         # Elaborate url repartition, almost done
         imgurl = "https://www.google.com/search?as_st=y&tbm=isch&as_q=" + user_feature_names[i][:-1].replace(" ", "+") + "&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=" + web_server + "&safe=images&tbs=iar:s,ift:" + pic_format
         htmldata = getdata(imgurl)
         soup = BeautifulSoup(htmldata, 'html.parser')
-        u = 1
+        u = -1
         for item in soup.find_all('img'):
             url_list.append(item['src'])
             #print(item['src'])
             pic_path = picture_paths[i] + picture_names[i][:-4] + "_" + str(u) + picture_names[i][-4:]
             for img in os.listdir(str(picture_paths[i])):
-                if mime.from_file(picture_paths[i] + img) != pic_format:
+                if mime.from_file(picture_paths[i] + img) != "svg" or mime.from_file(user_picture_paths[i] + img) == "svg":
                     pic_path = picture_paths[i] + picture_names[i][:-4] + "_" + str(u) + picture_names[i][-4:][:-3] + mime.from_file(picture_paths[i] + img).replace("image/", "")
             download_image(str(item['src']), pic_path)
             time.sleep(0.4)
             u += 1
-    
-    # Solve right mimetype of images
-    '''
-    example_path = "images/user/Function a/"
-    print(os.listdir(example_path))
-    for img in os.listdir(example_path):
-        if mime.from_file(example_path + img) != pic_format:
-            print(mime.from_file(example_path + img).replace("image/", ""))
-            print(img)
-    '''
-    
+
+    root_url_list = []
+    for i in range(len(root_picture_paths)):
+        imgurl = "https://www.google.com/search?as_st=y&tbm=isch&as_q=" + root_feature_names[i][:-1].replace(" ", "+") + "&as_epq=&as_oq=&as_eq=&cr=&as_sitesearch=" + web_server + "&safe=images&tbs=iar:s,ift:" + pic_format
+        htmldata = getdata(imgurl)
+        soup = BeautifulSoup(htmldata, 'html.parser')
+        u = 0
+        for item in soup.find_all('img'):
+            root_url_list.append(item['src'])
+            pic_path = root_picture_paths[i] + root_picture_names[i][:-4] + "_" + str(u) + root_picture_names[i][-4:]
+            for img in os.listdir(str(root_picture_paths[i])):
+                if mime.from_file(root_picture_paths[i] + img) != "svg" or mime.from_file(root_picture_paths[i] + img) == "svg":
+                    pic_path = root_picture_paths[i] + root_picture_names[i][:-4] + "_" + str(u) + root_picture_names[i][-4:][:-3] + mime.from_file(root_picture_paths[i] + img).replace("image/", "")
+            download_image(str(item['src']), pic_path)
+            time.sleep(0.4)
+            u += 1
     # Perform search
     images = []
 
