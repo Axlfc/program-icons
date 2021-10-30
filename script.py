@@ -121,7 +121,7 @@ def main():
     root_picture_names = []
     root_picture_paths = []
 
-    web_server = "wikipedia.org"
+    web_server = "commons.wikimedia.org"
     pic_format = "svg"
 
 
@@ -139,7 +139,6 @@ def main():
     
     mime = magic.Magic(mime=True)
 
-    
     url_list = []
     for i in range(len(picture_paths)):
         # Elaborate url repartition, almost done
