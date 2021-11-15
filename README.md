@@ -5,5 +5,5 @@
 
 ## to the path containg all program folders with .svg (or other) type of file
 Execute this code to run the downloading of the icons</br>
-<code>python3 script.py</code>
+<code>python3 icons.py</code>
 Wait till finishes, this program saves the images to the correspondant program folder.
