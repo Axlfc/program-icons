@@ -3,11 +3,12 @@ import os
 import requests
 import sys  # We need to read arguments
 import time
+import subprocess
 from bs4 import BeautifulSoup 
 
 def download_image(image_url, image_path):
     if image_url == "/images/branding/searchlogo/1x/googlelogo_desk_heirloom_color_150x55dp.gif":
-        return
+        return False
 
     response = requests.get(image_url, stream=True)
     print("Downloading: ", image_url, " to ", image_path)
@@ -15,6 +16,10 @@ def download_image(image_url, image_path):
     if response.ok:
         with open(image_path, 'wb') as f:
             f.write(response.content)
+            return True
+    else:
+        return False
+
 
 
 # - Description: Downloads n icons using provided therm
@@ -34,9 +39,12 @@ def download_icons(program_name, download_dir):
     htmldata = requests.get(imgurl).text
     soup = BeautifulSoup(htmldata, 'html.parser')
 
-    i = 1
+    i = 0
     for image in soup.find_all('img'):
-        download_image(str(image['src']), directory + "/" + program_name + "_" + str(i))
+        current_image_path = directory + "/" + program_name + "_" + str(i)
+
+        if download_image(str(image['src']), current_image_path):
+            subprocess.check_call(['convert', '-background', 'none', '-define', 'icon:auto-resize=256,128,96,64,48,32,24,16', current_image_path, current_image_path + '.ico'])
         time.sleep(0.4)  # Limit network traffic
         i += 1
 
