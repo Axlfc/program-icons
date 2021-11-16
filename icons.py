@@ -50,12 +50,12 @@ def download_icons(program_name, download_dir):
 
 
 def read_customizer_keynames():
-	name_list = []
+    name_list = []
     customizer_programs = subprocess.check_call(['customizer-install', '--commands']).strip()
     for program_name in customizer_programs:
         if program_name[0] != "-":
-        	name_list.append(program_name)
-	return name_list
+            name_list.append(program_name)
+    return name_list
 
 
 # - Description: Returns a list of key names regarding custom format in FEATURES.MD 
