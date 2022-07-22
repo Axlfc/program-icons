@@ -26,7 +26,7 @@ def download_image(image_url, image_path):
 #    * Argument 1: Therm used to search for images
 #    * Argument 2: Directory where we will create the directory containing the icons of this program
 # - Output: List of pro
-def download_icons(programName, download_dir, expectedFormat, webServer):
+def download_icon(programName, download_dir, expectedFormat, webServer):
     directory = download_dir + "/" + programName
     if not os.path.isdir(directory) and not os.path.exists(directory):
         os.makedirs(directory)
@@ -37,21 +37,19 @@ def download_icons(programName, download_dir, expectedFormat, webServer):
 
     i = 0
     for image in soup.find_all('img'):
-        current_image_path = directory + "/" + programName + "_" + str(i)
+        current_image_path = directory + "/" + programName + "_icon." + expectedFormat
+        print(current_image_path)
 
         if download_image(str(image['src']), current_image_path):
-            subprocess.check_call(
-                ['convert', '-background', 'none', '-define', 'icon:auto-resize=256,128,96,64,48,32,24,16',
-                 current_image_path, current_image_path + '.ico'])
-        if i == 1:
-            break
+            if i == 1:
+                break
         i += 1
 
 
 if __name__ == "__main__":
-    program_example = "Audacity"
+    program_example = "audacity"
     web_server = "commons.wikimedia.org"
     pic_format = "svg"
     download_dir = "images"
 
-    download_icons(program_example, download_dir, pic_format, web_server)
+    download_icon(program_example, download_dir, pic_format, web_server)
