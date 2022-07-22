@@ -2,9 +2,7 @@
 import os
 import requests
 import sys  # We need to read arguments
-import time
-import subprocess
-from bs4 import BeautifulSoup 
+from bs4 import BeautifulSoup
 
 def download_image(image_url, image_path):
     if image_url == "/images/branding/searchlogo/1x/googlelogo_desk_heirloom_color_150x55dp.gif":
