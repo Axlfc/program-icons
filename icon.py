@@ -49,7 +49,7 @@ def download_icon(programName, download_dir, expectedFormat, webServer):
 if __name__ == "__main__":
     program_example = "audacity"
     web_server = "commons.wikimedia.org"
-    pic_format = "svg"
     download_dir = "images"
+    pic_format = "svg"
 
     download_icon(program_example, download_dir, pic_format, web_server)
