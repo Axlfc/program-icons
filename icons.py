@@ -22,7 +22,7 @@ def download_image(image_url, image_path):
 
 
 
-# - Description: Downloads n icons using provided therm
+# - Description: Downloads n icons using provided term
 # - Arguments: 
 #    * Argument 1: Therm used to search for images
 #    * Argument 2: Directory where we will create the directory containing the icons of this program
@@ -78,6 +78,7 @@ def readKeyNames(file_path):
 
 
 if __name__ == "__main__":
+    # Here we program the
     if len(sys.argv) == 1:
         download_dir = "images"
         file_path = "FEATURES.md"
